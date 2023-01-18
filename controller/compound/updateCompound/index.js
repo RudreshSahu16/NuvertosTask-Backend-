@@ -1,4 +1,7 @@
 const mysql = require('mysql')
+// const { deleteImage } = require('../../../middleware')
+const uploadImage = require('../../../middleware')
+
 
 const UpdateCompound = async (req, res, next) => {
     try {
@@ -8,6 +11,7 @@ const UpdateCompound = async (req, res, next) => {
         CompoundDescription = req.body.CompoundDescription
         CompondImageSource = req.body.CompondImageSource
         dateModified = req.body.dateModified
+        isimagechange = req.body.isimagechange
 
         if (!CompoundId) {
             const error = {
@@ -27,6 +31,11 @@ const UpdateCompound = async (req, res, next) => {
                 "message": "Please Enter All Required Fields."
             }
             throw error
+        }
+
+        if (isimagechange) {
+            const dataurl = await uploadImage.uploadImage(CompondImageSource, CompoundName, 'compound')
+            CompondImageSource = dataurl
         }
 
         const connection = mysql.createConnection({

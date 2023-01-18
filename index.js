@@ -4,10 +4,10 @@ const cors = require("cors");
 const { dataRouter, compoundRouter } = require("./routes");
 const { connection } = require("./helper/connections");
 
+
 // connection with .env
 const dotenv = require("dotenv");
 dotenv.config();
-
 
 // connecting SQL db to project
 connection().connect(function (err) {
@@ -24,7 +24,6 @@ connection().connect(function (err) {
 
 const app = express();
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
 
 // putting core origin to be access
